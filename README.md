@@ -49,8 +49,8 @@ To ensure privacy and prevent public respondents from viewing other participants
    - Press the keyboard shortcut: **`Ctrl + Shift + C`**, OR
    - Visit: **`http://localhost:8080/#creator`**
 3. **Creator Credentials**:
-   - **Username**: `creator`
-   - **Password**: `HydrateAdmin2026!`
+   - **Username**: ``
+   - **Password**: ``
    *(You can customize these anytime via `CREATOR_USERNAME` and `CREATOR_PASSWORD` environment variables or directly in `server.py`)*.
 4. **Vulnerability Defense**:
    - **Timing-Attack Resistance**: Compares credentials using `hmac.compare_digest`.
@@ -72,40 +72,17 @@ Simply double-click `start.bat` in the project root folder.
 python server.py
 ```
 *(Or specify the Python 3.11 path)*:
-```powershell
-& "C:\Users\sai_s\AppData\Local\Programs\Python\Python311\python.exe" server.py
-```
+
 
 Then open your browser to:
 👉 **[http://localhost:8080](http://localhost:8080)**
 
----
-
-## ☁️ Deploying to Render (Free Cloud Hosting)
-
-The repository is already configured for one-click deployment on [Render](https://render.com):
-
-1. **Push your code to GitHub / GitLab**.
-2. **On Render Dashboard**:
-   - Click **New +** -> **Web Service**.
-   - Connect your repository.
-   - Render will automatically detect the settings from `render.yaml`, or fill them manually:
-     - **Runtime**: `Python 3`
-     - **Build Command**: `pip install -r requirements.txt`
-     - **Start Command**: `python server.py`
-3. **Environment Variables** (in Render Dashboard -> Environment):
-   - `CREATOR_USERNAME`: `creator` (or your chosen username)
-   - `CREATOR_PASSWORD`: `HydrateAdmin2026!` (or your chosen secure password)
-4. Click **Deploy Web Service**. Your app will be live on a public `https://your-app.onrender.com` URL with free SSL!
-
----
 
 ## 📁 Project Architecture
 
 ```
-c:\UHV\
-├── server.py                  # Python HTTP & REST API server
-├── render.yaml                # Render deployment configuration
+c:\project\
+├── server.py                  # Python HTTP & REST API server                
 ├── requirements.txt           # Python dependency file for Render
 ├── runtime.txt                # Python runtime definition (3.11)
 ├── Procfile                   # Process file for cloud hosts
