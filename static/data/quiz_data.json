@@ -1,0 +1,214 @@
+{
+  "title": "Find Your Hydration Personality",
+  "subtitle": "A short, shareable personality quiz that turns your daily water intake into a fun personality, an emoji, and some chill advice.",
+  "tone": "Playful, never preachy. No judgment. Your body is just curious.",
+  "questions": [
+    {
+      "id": "q1",
+      "number": 1,
+      "type": "intake_toggle",
+      "question": "How many glasses (about 250 ml) of water do you drink on a typical day?",
+      "subtitle": "The foundation question! Feel free to switch between glasses and litres.",
+      "weight": "heavy",
+      "options": [
+        {
+          "id": "0-2",
+          "points": 0,
+          "glasses": "0 - 2 glasses",
+          "litres": "< 0.75 L",
+          "tagline": "Runs on vibes & coffee",
+          "icon": "☕"
+        },
+        {
+          "id": "3-4",
+          "points": 1,
+          "glasses": "3 - 4 glasses",
+          "litres": "0.75 - 1.2 L",
+          "tagline": "A casual sip now and then",
+          "icon": "🥤"
+        },
+        {
+          "id": "5-6",
+          "points": 2,
+          "glasses": "5 - 6 glasses",
+          "litres": "1.25 - 1.7 L",
+          "tagline": "Cruising at a steady pace",
+          "icon": "🥛"
+        },
+        {
+          "id": "7-8",
+          "points": 3,
+          "glasses": "7 - 8 glasses",
+          "litres": "1.75 - 2.2 L",
+          "tagline": "Hitting optimal flow",
+          "icon": "✨"
+        },
+        {
+          "id": "9+",
+          "points": 4,
+          "glasses": "9+ glasses",
+          "litres": "2.25+ L",
+          "tagline": "Basically a human fountain",
+          "icon": "🌊"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "number": 2,
+      "type": "scale_7",
+      "question": "What's the first thing you drink in the morning?",
+      "statement": "The very first drink I reach for after getting out of bed is a glass of water.",
+      "traitKeys": ["timing", "habit"],
+      "traitWeights": [0.65, 0.35],
+      "fact": "Drinking water first thing helps kickstart your metabolism and clears out nighttime cellular waste."
+    },
+    {
+      "id": "q3",
+      "number": 3,
+      "type": "scale_7",
+      "question": "How often do you carry a water bottle?",
+      "statement": "My reusable water bottle goes everywhere with me like an emotional support buddy.",
+      "traitKeys": ["habit", "consistency"],
+      "traitWeights": [0.6, 0.4],
+      "fact": "People who keep a reusable bottle within arm's reach drink up to 40% more water throughout the day."
+    },
+    {
+      "id": "q4",
+      "number": 4,
+      "type": "scale_7",
+      "question": "You feel thirsty. What do you do?",
+      "statement": "When I notice I'm thirsty, I immediately stop and grab a drink instead of postponing it.",
+      "traitKeys": ["awareness", "consistency"],
+      "traitWeights": [0.7, 0.3],
+      "fact": "Thirst is your body's late alert system — responding right away prevents the afternoon brain fog."
+    },
+    {
+      "id": "q5",
+      "number": 5,
+      "type": "scale_7",
+      "question": "How much do you drink during meals?",
+      "statement": "I routinely sip water alongside my meals and snacks throughout the day.",
+      "traitKeys": ["consistency", "volume"],
+      "traitWeights": [0.6, 0.4],
+      "fact": "Sipping water with food aids smooth nutrient absorption and keeps your stomach enzymes balanced."
+    },
+    {
+      "id": "q6",
+      "number": 6,
+      "type": "scale_7",
+      "question": "On a hot or busy day, what happens to your water intake?",
+      "statement": "Even during chaotic deadlines or back-to-back meetings, my hydration remains on point.",
+      "traitKeys": ["consistency", "awareness"],
+      "traitWeights": [0.5, 0.5],
+      "fact": "Under stress, the body releases cortisol which increases fluid loss — keeping a water cue helps you stay grounded."
+    },
+    {
+      "id": "q7",
+      "number": 7,
+      "type": "scale_7",
+      "question": "How would your friends describe your relationship with water?",
+      "statement": "My friends would describe me as someone who is constantly sipping or talking about hydration.",
+      "traitKeys": ["volume", "habit", "awareness"],
+      "traitWeights": [0.35, 0.35, 0.3],
+      "fact": "The brain is about 73% water. Staying hydrated is quite literally feeding your brain clarity!"
+    }
+  ],
+  "personalities": {
+    "cactus": {
+      "id": "cactus",
+      "name": "The Cactus",
+      "emoji": "🌵",
+      "typicalIntake": "0-2 glasses",
+      "vibe": "Runs on vibes and occasional chai",
+      "description": "You are biologically equipped to survive the desert on sheer willpower and iced coffee. Water is basically a myth you've heard whispers about.",
+      "chillAdvice": "Keep a bottle where you can see it. Take a sip every time you unlock your phone. Tiny wins count.",
+      "waterTwin": "A resilient desert succulent living on sunbeams and optimism",
+      "color": "#059669",
+      "superpower": {
+        "title": "Superpower: Extreme Grit",
+        "description": "Can pull an entire 8-hour workday on 2 drops of liquid and sheer vibes."
+      },
+      "growth": {
+        "title": "Growth Area: Visible Cues",
+        "description": "Deep in a work spiral? Your water bottle sits untouched. Put it right next to your keyboard!"
+      }
+    },
+    "casual_sipper": {
+      "id": "casual_sipper",
+      "name": "The Casual Sipper",
+      "emoji": "🐈",
+      "typicalIntake": "3-4 glasses",
+      "vibe": "Drinks when reminded",
+      "description": "You've got cute tumblers and great intentions, but out of sight is out of mind. You drink when someone else takes a sip or your mouth feels like toast.",
+      "chillAdvice": "You're close. Add one glass with each meal and you're there.",
+      "waterTwin": "A curious housecat that only inspects running tap water occasionally",
+      "color": "#0284C7",
+      "superpower": {
+        "title": "Superpower: Social Hydration",
+        "description": "Ready to drink whenever prompted by your environment — you just need a friendly nudge."
+      },
+      "growth": {
+        "title": "Growth Area: Routine Anchors",
+        "description": "Relying on thirst alone means hours pass unnoticed. Anchor a sip to your daily habits!"
+      }
+    },
+    "steady_turtle": {
+      "id": "steady_turtle",
+      "name": "The Steady Turtle",
+      "emoji": "🐢",
+      "typicalIntake": "5-6 glasses",
+      "vibe": "Slow, consistent, unbothered",
+      "description": "Unshakeable, calm, and quietly disciplined. You don't make a big scene out of drinking water; you just keep an easy, continuous pace.",
+      "chillAdvice": "Solid pace. Try a glass right after waking up for a bonus boost.",
+      "waterTwin": "An ancient sea turtle gliding peacefully along the reef current",
+      "color": "#0D9488",
+      "superpower": {
+        "title": "Superpower: Unflappable Flow",
+        "description": "You maintain a solid baseline day after day without needing fancy alarms or drama."
+      },
+      "growth": {
+        "title": "Growth Area: Morning Kickstart",
+        "description": "You're great during the afternoon, but a morning glass could give you an early glow boost."
+      }
+    },
+    "happy_dolphin": {
+      "id": "happy_dolphin",
+      "name": "The Happy Dolphin",
+      "emoji": "🐬",
+      "typicalIntake": "7-8 glasses",
+      "vibe": "Hydrated and thriving",
+      "description": "You have mastered the art of cellular happiness. Your skin is radiant, your organs are cheering, and your water bottle has personalized stickers.",
+      "chillAdvice": "You've got it figured out. Keep your bottle handy on busy days.",
+      "waterTwin": "A joyful dolphin performing backflips in sparkling turquoise waves",
+      "color": "#06B6D4",
+      "superpower": {
+        "title": "Superpower: Radiant Instinct",
+        "description": "Hydration is second nature to you — intuitive, effortless, and genuinely energizing."
+      },
+      "growth": {
+        "title": "Growth Area: Meeting Defense",
+        "description": "Keep that bottle filled before back-to-back calls so your flow doesn't hit a dry spell."
+      }
+    },
+    "water_whale": {
+      "id": "water_whale",
+      "name": "The Water Whale",
+      "emoji": "🐋",
+      "typicalIntake": "9+ glasses",
+      "vibe": "Basically a walking reservoir",
+      "description": "A magnificent aquatic legend. You carry gallon jugs without hesitation, your bathroom visits are legendary, and you are approximately 99.4% pure water.",
+      "chillAdvice": "Respect. Listen to your body and balance with meals. Hydration is a vibe, not a competition.",
+      "waterTwin": "A mighty blue whale roaming the open ocean in supreme majesty",
+      "color": "#2563EB",
+      "superpower": {
+        "title": "Superpower: Peak Circulation",
+        "description": "Immense fluid stamina that leaves dry dehydration in another dimension."
+      },
+      "growth": {
+        "title": "Growth Area: Electrolyte Harmony",
+        "description": "Remember to balance with healthy salts & snacks — water is a vibe, not a speedrun!"
+      }
+    }
+  }
+}

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "resp_1793699670312",
+    "userName": "bleh",
+    "createdAt": "2026-11-03T09:54:30.641347Z",
+    "personalityId": "casual_sipper",
+    "personalityName": "The Casual Sipper",
+    "emoji": "🐈",
+    "totalScore": 3.8,
+    "traits": {
+      "volume": 52,
+      "consistency": 36,
+      "timing": 15,
+      "awareness": 27,
+      "habit": 33
+    },
+    "answers": {
+      "q1": "5-6",
+      "q2": 1,
+      "q4": 1,
+      "q6": 1
+    },
+    "metadata": {
+      "unitMode": "litres",
+      "timeTakenSec": 7
+    }
+  },
+  {
+    "id": "resp_1793699655298",
+    "userName": "bleh",
+    "createdAt": "2026-11-03T09:54:15.310517Z",
+    "personalityId": "casual_sipper",
+    "personalityName": "The Casual Sipper",
+    "emoji": "🐈",
+    "totalScore": 2.8,
+    "traits": {
+      "volume": 21,
+      "consistency": 68,
+      "timing": 37,
+      "awareness": 84,
+      "habit": 39
+    },
+    "answers": {
+      "q1": "0-2",
+      "q2": 1,
+      "q3": 1,
+      "q4": 5,
+      "q5": 6,
+      "q6": 7,
+      "q7": 6
+    },
+    "metadata": {
+      "unitMode": "litres",
+      "timeTakenSec": 16
+    }
+  },
+  {
+    "id": "resp_1793698943502",
+    "userName": "meh",
+    "createdAt": "2026-11-03T09:42:23.819348Z",
+    "personalityId": "happy_dolphin",
+    "personalityName": "The Happy Dolphin",
+    "emoji": "🐬",
+    "totalScore": 6.7,
+    "traits": {
+      "volume": 59,
+      "consistency": 86,
+      "timing": 86,
+      "awareness": 86,
+      "habit": 86
+    },
+    "answers": {
+      "q1": "5-6",
+      "q2": 6,
+      "q3": 6,
+      "q4": 6,
+      "q5": 6,
+      "q6": 6,
+      "q7": 6
+    },
+    "metadata": {
+      "unitMode": "glasses",
+      "timeTakenSec": 11
+    }
+  },
+  {
+    "id": "resp_1793698917155",
+    "userName": "meh",
+    "createdAt": "2026-11-03T09:41:57.471511Z",
+    "personalityId": "cactus",
+    "personalityName": "The Cactus",
+    "emoji": "🌵",
+    "totalScore": 0.4,
+    "traits": {
+      "volume": 15,
+      "consistency": 25,
+      "timing": 15,
+      "awareness": 15,
+      "habit": 15
+    },
+    "answers": {
+      "q1": "0-2",
+      "q2": 1,
+      "q3": 1,
+      "q4": 1,
+      "q6": 1,
+      "q7": 1
+    },
+    "metadata": {
+      "unitMode": "glasses",
+      "timeTakenSec": 16
+    }
+  }
+]
