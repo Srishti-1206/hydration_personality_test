@@ -81,11 +81,34 @@ Then open your browser to:
 
 ---
 
+## ☁️ Deploying to Render (Free Cloud Hosting)
+
+The repository is already configured for one-click deployment on [Render](https://render.com):
+
+1. **Push your code to GitHub / GitLab**.
+2. **On Render Dashboard**:
+   - Click **New +** -> **Web Service**.
+   - Connect your repository.
+   - Render will automatically detect the settings from `render.yaml`, or fill them manually:
+     - **Runtime**: `Python 3`
+     - **Build Command**: `pip install -r requirements.txt`
+     - **Start Command**: `python server.py`
+3. **Environment Variables** (in Render Dashboard -> Environment):
+   - `CREATOR_USERNAME`: `creator` (or your chosen username)
+   - `CREATOR_PASSWORD`: `HydrateAdmin2026!` (or your chosen secure password)
+4. Click **Deploy Web Service**. Your app will be live on a public `https://your-app.onrender.com` URL with free SSL!
+
+---
+
 ## 📁 Project Architecture
 
 ```
 c:\UHV\
 ├── server.py                  # Python HTTP & REST API server
+├── render.yaml                # Render deployment configuration
+├── requirements.txt           # Python dependency file for Render
+├── runtime.txt                # Python runtime definition (3.11)
+├── Procfile                   # Process file for cloud hosts
 ├── start.bat                  # One-click Windows launcher
 ├── data\
 │   ├── responses.json         # Persisted collection of responses

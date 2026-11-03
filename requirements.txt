@@ -1,0 +1,2 @@
+# Find Your Hydration Personality
+# Zero external packages required - runs on Python 3 standard library
