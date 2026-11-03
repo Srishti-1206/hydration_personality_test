@@ -83,7 +83,8 @@ Then open your browser to:
 ```
 c:\project\
 ├── server.py                  # Python HTTP & REST API server                
-├── requirements.txt           # Python dependency file for Render
+├── requirements.txt           # Python dependency file
+|___ vercel.json               # vercel
 ├── runtime.txt                # Python runtime definition (3.11)
 ├── Procfile                   # Process file for cloud hosts
 ├── start.bat                  # One-click Windows launcher
