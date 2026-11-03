@@ -6,6 +6,9 @@
 (function () {
   'use strict';
 
+  // Google Sheet Webhook Integration (persists all responses to Google Sheets)
+  const GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby43hoDQMqM0XGcKiTNRqBBRLPx1dDdNZfuY-Mo-9gECwRAFNnibZRIOttyjAq_H0bqmA/exec';
+
   // Application State
   const state = {
     quizData: null,
@@ -830,7 +833,7 @@
     els.radarContainer.innerHTML = svg;
   }
 
-  // Save Response Record (Backend API + LocalStorage)
+  // Save Response Record (Backend API + Google Sheets + LocalStorage)
   async function saveResponseRecord(record) {
     // 1. LocalStorage collection backup
     try {
@@ -841,7 +844,25 @@
       console.warn('LocalStorage save error:', e);
     }
 
-    // 2. Server API POST
+    // 2. Google Sheet Webhook Sync (direct save to creator's Google Drive)
+    if (GOOGLE_SHEET_WEBHOOK_URL) {
+      try {
+        fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record)
+        }).then(() => {
+          console.log('✅ Response synced to Google Sheet successfully!');
+        }).catch(err => {
+          console.warn('Google Sheet sync notice:', err);
+        });
+      } catch (e) {
+        console.warn('Google Sheet sync error:', e);
+      }
+    }
+
+    // 3. Server API POST
     try {
       const res = await fetch('/api/responses', {
         method: 'POST',

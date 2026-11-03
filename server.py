@@ -49,6 +49,33 @@ DB_PATH = os.path.join(DATA_DIR, "responses.db")
 KV_URL = os.environ.get("KV_REST_API_URL") or os.environ.get("UPSTASH_REDIS_REST_URL")
 KV_TOKEN = os.environ.get("KV_REST_API_TOKEN") or os.environ.get("UPSTASH_REDIS_REST_TOKEN")
 
+# Google Sheet Webhook Sync (records all responses to Google Drive in real-time)
+GOOGLE_SHEET_WEBHOOK_URL = os.environ.get(
+    "GOOGLE_SHEET_WEBHOOK_URL",
+    "https://script.google.com/macros/s/AKfycby43hoDQMqM0XGcKiTNRqBBRLPx1dDdNZfuY-Mo-9gECwRAFNnibZRIOttyjAq_H0bqmA/exec"
+)
+
+def forward_to_google_sheet(item):
+    if not GOOGLE_SHEET_WEBHOOK_URL:
+        return
+    def _send():
+        try:
+            import urllib.request
+            req = urllib.request.Request(
+                GOOGLE_SHEET_WEBHOOK_URL,
+                data=json.dumps(item).encode("utf-8"),
+                headers={
+                    "Content-Type": "application/json",
+                    "User-Agent": "Mozilla/5.0"
+                },
+                method="POST"
+            )
+            urllib.request.urlopen(req, timeout=6)
+        except Exception as e:
+            print(f"[Google Sheet Forwarding Note] {e}")
+    import threading
+    threading.Thread(target=_send, daemon=True).start()
+
 def kv_execute(cmd_list):
     """Execute Redis command on Upstash/Vercel KV via REST API"""
     if not (KV_URL and KV_TOKEN):
@@ -169,7 +196,10 @@ def save_response(item):
     if KV_URL and KV_TOKEN:
         kv_execute(["LPUSH", "uhv_responses", json.dumps(item, ensure_ascii=False)])
 
-    # 2. Save to local JSON & SQLite
+    # 2. Forward to Google Sheet Webhook
+    forward_to_google_sheet(item)
+
+    # 3. Save to local JSON & SQLite
     responses = read_all_responses()
     responses = [r for r in responses if r.get("id") != item.get("id")]
     responses.insert(0, item)  # Latest first
