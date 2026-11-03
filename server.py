@@ -45,6 +45,32 @@ else:
 JSON_STORE_PATH = os.path.join(DATA_DIR, "responses.json")
 DB_PATH = os.path.join(DATA_DIR, "responses.db")
 
+# Optional Cloud Database Persistence (Vercel KV / Upstash Redis REST)
+KV_URL = os.environ.get("KV_REST_API_URL") or os.environ.get("UPSTASH_REDIS_REST_URL")
+KV_TOKEN = os.environ.get("KV_REST_API_TOKEN") or os.environ.get("UPSTASH_REDIS_REST_TOKEN")
+
+def kv_execute(cmd_list):
+    """Execute Redis command on Upstash/Vercel KV via REST API"""
+    if not (KV_URL and KV_TOKEN):
+        return None
+    try:
+        import urllib.request
+        req = urllib.request.Request(
+            KV_URL,
+            data=json.dumps(cmd_list).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {KV_TOKEN}",
+                "Content-Type": "application/json"
+            },
+            method="POST"
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return data.get("result")
+    except Exception as e:
+        print(f"[KV Persistence Error] {e}")
+        return None
+
 # Hardcoded Creator Credentials (configurable via env vars)
 CREATOR_USERNAME = os.environ.get("CREATOR_USERNAME", "creator")
 CREATOR_PASSWORD = os.environ.get("CREATOR_PASSWORD", "HydrateAdmin2026!")
@@ -110,20 +136,48 @@ init_db()
 
 
 def read_all_responses():
+    # 1. Try Vercel KV / Upstash if configured
+    if KV_URL and KV_TOKEN:
+        raw_items = kv_execute(["LRANGE", "uhv_responses", 0, -1])
+        if raw_items is not None and isinstance(raw_items, list):
+            parsed = []
+            for item in raw_items:
+                if isinstance(item, str):
+                    try:
+                        parsed.append(json.loads(item))
+                    except Exception:
+                        pass
+                elif isinstance(item, dict):
+                    parsed.append(item)
+            if parsed:
+                return parsed
+
+    # 2. Local JSON file
     try:
         if os.path.exists(JSON_STORE_PATH):
             with open(JSON_STORE_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
+                if isinstance(data, list):
+                    return data
     except Exception as e:
         print(f"Error reading JSON responses: {e}")
     return []
 
 
 def save_response(item):
+    # 1. Save to Vercel KV / Upstash if configured
+    if KV_URL and KV_TOKEN:
+        kv_execute(["LPUSH", "uhv_responses", json.dumps(item, ensure_ascii=False)])
+
+    # 2. Save to local JSON & SQLite
     responses = read_all_responses()
+    responses = [r for r in responses if r.get("id") != item.get("id")]
     responses.insert(0, item)  # Latest first
-    with open(JSON_STORE_PATH, "w", encoding="utf-8") as f:
-        json.dump(responses, f, indent=2, ensure_ascii=False)
+    try:
+        with open(JSON_STORE_PATH, "w", encoding="utf-8") as f:
+            json.dump(responses, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"JSON write error: {e}")
 
     # Save to SQLite
     try:
@@ -597,6 +651,8 @@ class HydrationAppHandler(SimpleHTTPRequestHandler):
             if not self.verify_auth_token():
                 self.send_json(401, {"success": False, "error": "Unauthorized"})
                 return
+            if KV_URL and KV_TOKEN:
+                kv_execute(["DEL", "uhv_responses"])
             with open(JSON_STORE_PATH, "w", encoding="utf-8") as f:
                 json.dump([], f)
             conn = sqlite3.connect(DB_PATH)

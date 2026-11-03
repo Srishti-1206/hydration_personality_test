@@ -272,6 +272,20 @@
       responsesData = [];
     }
 
+    // Merge with locally stored responses (persists submissions across serverless cold-starts)
+    try {
+      const local = JSON.parse(localStorage.getItem('uhv_responses') || '[]');
+      const existingIds = new Set(responsesData.map(r => r.id));
+      for (const item of local) {
+        if (!existingIds.has(item.id)) {
+          responsesData.unshift(item);
+          existingIds.add(item.id);
+        }
+      }
+    } catch (e) {
+      console.warn('LocalStorage merge error:', e);
+    }
+
     filteredData = [...responsesData];
     renderDashboard();
   }
