@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Find Your Hydration Personality 💧</title>
+  <meta name="description" content="A short, shareable personality quiz that turns your daily water intake into a fun personality, an emoji, and some chill advice.">
+  <meta name="theme-color" content="#028090">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Silkscreen (for retro-pixel accents) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Silkscreen&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Floating Background Bubbles -->
+  <div class="bg-bubbles" id="bgBubbles" aria-hidden="true"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+      <a href="#" class="brand-badge" id="brandHomeBtn" title="Back to Start">
+        <span class="brand-dot"></span>
+        <span>Find Your Hydration</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Dark Mode Toggle -->
+        <button type="button" class="nav-btn" id="btnToggleTheme" title="Toggle dark/light theme" aria-label="Toggle theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN VIEW 1: LANDING PAGE -->
+    <main id="landingView" class="landing-view">
+      <div class="quiz-card">
+        <!-- Mascot Section -->
+        <div class="mascot-container">
+          <div class="speech-bubble">
+            How do you hydrate? Let's find out! 🌊
+          </div>
+          <div class="mascot-wrapper" id="landingMascot" title="Droplet - Your hydration guide">
+            <!-- Rendered by MascotSVGs.default -->
+          </div>
+        </div>
+
+        <h1 class="hero-title">Find Your Hydration Personality</h1>
+        <p class="hero-subtitle">
+          A quick, friendly quiz that turns your daily water routine into a fun personality, an emoji, and relaxed, no-guilt advice.
+        </p>
+
+        <!-- Inspiration highlights -->
+        <div class="highlights-pill-row">
+          <div class="feature-pill">⏱️ Under 2 mins</div>
+          <div class="feature-pill">🌵 5 Quirky Personas</div>
+          <div class="feature-pill">🕸️ 5-Trait Radar Chart</div>
+          <div class="feature-pill">✨ Zero guilt or lecture</div>
+        </div>
+
+        <!-- Name Input Card (front page) -->
+        <div class="name-input-card">
+          <label for="userNameInput" class="name-input-label">What should Droplet call you?</label>
+          <div class="name-input-wrap">
+            <span class="name-input-icon">👤</span>
+            <input type="text" id="userNameInput" class="name-input" placeholder="Enter your name (e.g. Alex, Sam)..." maxlength="30" autocomplete="name">
+          </div>
+          <p class="name-input-hint">Your name will appear on your personalized hydration card & result!</p>
+        </div>
+
+        <!-- Start Quiz CTA -->
+        <div>
+          <button type="button" class="btn-primary" id="startQuizBtn">
+            <span>Start Hydration Quiz</span>
+            <span>💧</span>
+          </button>
+        </div>
+
+        <p class="retro-note">[ 7 QUICK QUESTIONS • INSTANT SHAREABLE RESULTS ]</p>
+      </div>
+    </main>
+
+    <!-- MAIN VIEW 2: QUIZ STEPPER (7 QUESTIONS) -->
+    <section id="quizView" class="quiz-view hidden" aria-live="polite">
+      <div class="quiz-card">
+        
+        <!-- Header: Back & Step counter -->
+        <div class="quiz-header">
+          <button type="button" class="back-btn" id="btnBack">
+            <span>←</span> <span>Back</span>
+          </button>
+          <div class="step-indicator" id="stepIndicator">QUESTION 1 OF 7</div>
+        </div>
+
+        <!-- Progress Bar with animated stripes -->
+        <div class="progress-container">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 14%;"></div>
+        </div>
+
+        <!-- Question Titles -->
+        <h2 class="question-title" id="questionTitle">How many glasses of water do you drink on a typical day?</h2>
+        <p class="question-subtitle" id="questionSubtitle">The foundation question! Feel free to switch between glasses and litres.</p>
+
+        <!-- Question Content Body (Rendered dynamically) -->
+        <div id="questionBody"></div>
+
+        <!-- Inter-question Hydration Fact Card -->
+        <div class="fact-card hidden" id="factCard">
+          <div class="fact-icon">💡</div>
+          <div class="fact-text" id="factText">Did you know? Mild dehydration can affect cognitive alertness.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MAIN VIEW 3: RETRO PIXEL LOADING SCREEN -->
+    <section id="loadingView" class="loading-view hidden" aria-live="assertive">
+      <div class="pixel-window">
+        <div class="pixel-titlebar">
+          <span>💧 HYDRATION_ANALYZER_V1.EXE</span>
+          <div class="pixel-dots">
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+          </div>
+        </div>
+        
+        <div class="pixel-content">
+          <div class="mascot-wrapper" id="loadingMascot" style="margin: 0 auto 12px; width: 110px; height: 110px;"></div>
+          
+          <div class="pixel-loading-bar-wrap">
+            <div class="pixel-loading-bar-fill" id="loadingProgressBar"></div>
+          </div>
+          
+          <div class="pixel-status-text" id="loadingStatus">
+            Analyzing your sip patterns...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN VIEW 4: RESULTS PAGE -->
+    <section id="resultView" class="result-view hidden">
+      <div class="quiz-card">
+        
+        <!-- Top Mascot & Personality Title -->
+        <div class="mascot-container" style="margin-bottom: 12px;">
+          <div class="speech-bubble">
+            Here's your hydration personality! ✨
+          </div>
+          <div class="mascot-wrapper" id="resultMascot"></div>
+        </div>
+
+        <div class="result-header">
+          <div class="result-for-user" id="resultForUser">Custom Profile for You</div>
+          <h2 class="result-personality-name" id="resultName">The Steady Turtle</h2>
+          <div class="result-vibe-tag" id="resultVibe">"Slow, consistent, unbothered"</div>
+          <p class="result-description" id="resultDesc">
+            You don't make a big fuss about hydration; you just maintain a calm, quiet, admirable daily rhythm.
+          </p>
+        </div>
+
+        <!-- Radar Chart Card (PRD Reference 1) -->
+        <div class="radar-card">
+          <div class="radar-title">
+            <span>🕸️ Hydration Trait Breakdown</span>
+          </div>
+          <div class="radar-subtitle">Five core dimensions of your daily water rhythm</div>
+          <div class="radar-svg-container" id="radarContainer">
+            <!-- SVG Radar chart rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Highlights Grid: Superpower Card & Growth Area Card (PRD Reference 1) -->
+        <div class="highlights-grid">
+          <div class="highlight-box superpower-box" id="superpowerBox">
+            <!-- Rendered by app.js -->
+          </div>
+          <div class="highlight-box growth-box" id="growthBox">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Chill Tip Card -->
+        <div class="tip-card">
+          <div class="tip-icon">🌱</div>
+          <div>
+            <div class="tip-title">Chill Tip</div>
+            <div class="tip-text" id="tipText">Solid pace. Try a glass right after waking up for a bonus boost.</div>
+          </div>
+        </div>
+
+        <!-- Water Twin Card -->
+        <div class="twin-card" id="twinText">
+          Your Water Twin: <strong class="twin-strong">An ancient sea turtle cruising calmly through coral reefs</strong>
+        </div>
+
+        <!-- Action Buttons: Share, Copy, Retake, View Collection -->
+        <div class="result-actions">
+          <div class="actions-row">
+            <button type="button" class="btn-primary" id="btnShareCard" style="max-width: none;">
+              <span>📸 Share Image Card</span>
+            </button>
+            <button type="button" class="btn-secondary" id="btnCopyLink">
+              <span>🔗 Copy Link</span>
+            </button>
+          </div>
+
+          <button type="button" class="btn-secondary" id="btnRetake">
+            <span>🔄 Retake Quiz</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MAIN VIEW 5: RESPONSES COLLECTION & ANALYTICS DASHBOARD (CREATOR ONLY) -->
+    <section id="dashboardView" class="dashboard-view hidden">
+      <div class="quiz-card">
+
+        <!-- Creator Authenticated Session Status Bar -->
+        <div class="creator-status-bar">
+          <div>
+            <span>👑 Creator Session Active</span>
+            <span style="font-size: 0.75rem; font-weight: normal; opacity: 0.8; margin-left: 8px;">(Authenticated)</span>
+          </div>
+          <button type="button" class="nav-btn" id="btnLogoutCreator" style="padding: 4px 10px; font-size: 0.78rem; color: #ef4444;">
+            <span>🚪 Logout</span>
+          </button>
+        </div>
+        
+        <div class="dashboard-header">
+          <div>
+            <h2 class="dashboard-title">
+              <span>📊 Hydration Responses Collection</span>
+            </h2>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+              Live collection of all submitted answers, personality outcomes, and trait statistics.
+            </p>
+          </div>
+
+          <!-- Controls / Export Toolbar -->
+          <div class="dashboard-controls">
+            <button type="button" class="nav-btn" id="btnExportCsv" title="Export as CSV spreadsheet">
+              <span>📥 Export CSV</span>
+            </button>
+            <button type="button" class="nav-btn" id="btnExportJson" title="Export raw JSON">
+              <span>📄 JSON</span>
+            </button>
+            <button type="button" class="nav-btn" id="btnSeedDemo" title="Seed 5 realistic demo entries">
+              <span>🌱 Add Sample Data</span>
+            </button>
+            <button type="button" class="nav-btn" id="btnClearData" title="Reset all responses" style="color: #ef4444;">
+              <span>🗑️ Clear</span>
+            </button>
+            <button type="button" class="btn-primary" id="btnBackToHome" style="padding: 6px 14px; font-size: 0.85rem; max-width: 140px;">
+              <span>← Back to Quiz</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Grid -->
+        <div class="kpi-grid" style="margin: 20px 0;">
+          <div class="kpi-card">
+            <div class="kpi-val" id="dashTotalCount">0</div>
+            <div class="kpi-label">Total Submissions</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="dashTopPersonality" style="font-size: 1.15rem; padding-top: 6px;">—</div>
+            <div class="kpi-label">Top Personality</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="dashAvgIntake" style="font-size: 1.25rem; padding-top: 4px;">—</div>
+            <div class="kpi-label">Typical Daily Intake</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="dashAvgScore">—</div>
+            <div class="kpi-label">Average Score</div>
+          </div>
+        </div>
+
+        <!-- Personality Distribution & Trait Averages in 2 columns -->
+        <div class="highlights-grid" style="margin-bottom: 24px;">
+          <!-- Left: Personality Distribution Bars -->
+          <div class="distribution-card">
+            <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 14px;">Personality Breakdown</h3>
+            <div id="distBarsContainer">
+              <!-- Rendered by dashboard.js -->
+            </div>
+          </div>
+
+          <!-- Right: Average Hydration Dimensions -->
+          <div class="distribution-card">
+            <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 14px;">Average Trait Levels (%)</h3>
+            <div id="traitAveragesContainer">
+              <!-- Rendered by dashboard.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Responses Collection Table -->
+        <div class="table-card">
+          <div class="table-header-bar">
+            <div id="tableCountSummary" style="font-size: 0.88rem; font-weight: 700; color: var(--text-main);">
+              Showing responses
+            </div>
+
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <input type="text" id="dashSearchInput" class="search-input" placeholder="Search responses...">
+              <select id="dashFilterPersonality" class="search-input" style="max-width: 170px;">
+                <option value="all">All Personalities</option>
+                <option value="cactus">🌵 The Cactus</option>
+                <option value="casual_sipper">🐈 The Casual Sipper</option>
+                <option value="steady_turtle">🐢 The Steady Turtle</option>
+                <option value="happy_dolphin">🐬 The Happy Dolphin</option>
+                <option value="water_whale">🐋 The Water Whale</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="responses-table">
+              <thead>
+                <tr>
+                  <th>Participant</th>
+                  <th>Submission ID</th>
+                  <th>Date & Time</th>
+                  <th>Personality</th>
+                  <th>Score</th>
+                  <th>Daily Intake</th>
+                  <th>Hydration Traits (Vol/Con/Tim/Hab)</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="responsesTableBody">
+                <!-- Rows injected by dashboard.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer Note (PRD Guideline: Just for fun, not medical advice) -->
+    <footer class="app-footer">
+      <p>Just for fun, not medical advice. Made with 💧 for mindful hydration.</p>
+      <p style="margin-top: 10px;">
+        <button type="button" class="creator-lock-btn" id="btnOpenCreatorModal" title="Creator Access">
+          <span>🔒 Creator Access</span>
+        </button>
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- CREATOR AUTHENTICATION MODAL (PROTECTED) -->
+  <div id="creatorAuthModal" class="auth-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="auth-modal-card">
+      <div class="auth-modal-icon">🔐</div>
+      <h2 id="authModalTitle" class="auth-modal-title">Creator Portal Access</h2>
+      <p class="auth-modal-subtitle">Enter your creator credentials to access participant responses.</p>
+
+      <form id="creatorLoginForm" class="auth-form" autocomplete="off">
+        <div class="auth-input-group">
+          <label for="creatorUsername" class="auth-label">Creator Username</label>
+          <input type="text" id="creatorUsername" class="auth-input" placeholder="Enter username" required autocomplete="username">
+        </div>
+
+        <div class="auth-input-group">
+          <label for="creatorPassword" class="auth-label">Creator Password</label>
+          <input type="password" id="creatorPassword" class="auth-input" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+
+        <div id="authErrorMessage" class="auth-error-banner hidden"></div>
+
+        <div class="auth-actions">
+          <button type="button" class="btn-secondary" id="btnCancelAuth">Cancel</button>
+          <button type="submit" class="btn-primary" id="btnSubmitAuth">
+            <span>Unlock Portal</span>
+            <span>🔑</span>
+          </button>
+        </div>
+      </form>
+
+      <p class="auth-security-note">
+        🛡️ Protected by server-side timing-safe authentication & rate-limiting.
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/mascot.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

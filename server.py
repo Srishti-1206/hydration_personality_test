@@ -30,10 +30,18 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+import tempfile
+
 PORT = int(os.environ.get("PORT", 8080))
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
-DATA_DIR = os.path.join(BASE_DIR, "data")
+
+# Support serverless read-only filesystems (e.g., Vercel)
+if os.environ.get("VERCEL"):
+    DATA_DIR = os.path.join(tempfile.gettempdir(), "hydration_data")
+else:
+    DATA_DIR = os.path.join(BASE_DIR, "data")
+
 JSON_STORE_PATH = os.path.join(DATA_DIR, "responses.json")
 DB_PATH = os.path.join(DATA_DIR, "responses.db")
 
@@ -56,6 +64,7 @@ os.makedirs(STATIC_DIR, exist_ok=True)
 
 # Initialize SQLite database
 def init_db():
+    os.makedirs(DATA_DIR, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
@@ -86,8 +95,16 @@ def init_db():
 
     # Ensure JSON file exists
     if not os.path.exists(JSON_STORE_PATH):
+        seed_source = os.path.join(BASE_DIR, "data", "responses.json")
+        initial_data = []
+        if os.path.exists(seed_source) and seed_source != JSON_STORE_PATH:
+            try:
+                with open(seed_source, "r", encoding="utf-8") as sf:
+                    initial_data = json.load(sf)
+            except Exception:
+                initial_data = []
         with open(JSON_STORE_PATH, "w", encoding="utf-8") as f:
-            json.dump([], f, indent=2)
+            json.dump(initial_data, f, indent=2)
 
 init_db()
 
@@ -298,6 +315,14 @@ class HydrationAppHandler(SimpleHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_security_headers()
+        self.end_headers()
 
     def get_client_ip(self):
         return self.client_address[0] if self.client_address else "127.0.0.1"
