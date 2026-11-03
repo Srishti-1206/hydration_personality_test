@@ -1,14 +1,1 @@
-services:
-  - type: web
-    name: find-your-hydration-personality
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: python server.py
-    plan: free
-    envVars:
-      - key: PORT
-        value: 10000
-      - key: CREATOR_USERNAME
-        value: creator
-      - key: CREATOR_PASSWORD
-        value: HydrateAdmin2026!
+
